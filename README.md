@@ -11,14 +11,14 @@ function render() {
   )
 }
 
-let memorizedState = []
-let cursor = 0
+let memorizedState = []        //声明一个数组，可实现多个useState和useEffects。用于存放state和useEffects中是否检测的参数
+let cursor = 0                 //用来表示数组下标
 
 function useState(initValue) {
   memorizedState[cursor] = memorizedState[cursor] || initValue
   const currentCursor = cursor
   function setState(newState) {
-    memorizedState[currentCursor] = newState
+    memorizedState[currentCursor] = newState     //经典闭包，currentCursor不变（再次调用时，仍为第一次传递进来的那个数）
     render()
   }
   return [memorizedState[cursor++], setState]
@@ -38,7 +38,7 @@ function useEffects(callback, depArray) {
 
 
 
-function App() {
+function App() {                            //测试用例子
   console.log('render app')
   const [count, setCount] = useState(0)
   const [number, setNumber] = useState(1)
